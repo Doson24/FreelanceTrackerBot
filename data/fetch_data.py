@@ -36,13 +36,20 @@ def xml_parser(url):
         yield Task(title, link, description, date)
 
 
-def get_html(url):
-    # Создаем экземпляр класса Options
-    options = Options()
-    # Включаем безголовый режим
-    options.headless = True
-    driver = webdriver.Chrome(options=options)
-    driver.get(url)
-    html = driver.page_source
-    driver.quit()
-    return html
+class HtmlGetter:
+    def __init__(self):
+        self.options = Options()
+        self.options.headless = True
+
+    def __enter__(self):
+        self.driver = webdriver.Chrome(options=self.options)
+        return self
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        self.driver.quit()
+
+    def get_html(self, url):
+        self.driver.get(url)
+        self.driver.implicitly_wait(3)
+        html = self.driver.page_source
+        return html
