@@ -1,17 +1,18 @@
 import pandas as pd
 import sqlite3
+from os import PathLike
 
 
 class SQLite_operations:
 
-    def __init__(self, path, table_name):
+    def __init__(self, file_path: PathLike, table_name):
         # self.df = df
-        self.path = path
+        self.path = file_path
         self.table_name = table_name
 
     def add_data(self, df: pd.DataFrame, ):
         # Создание соединения с базой данных SQLite
-        conn = sqlite3.connect(self.path)
+        conn = sqlite3.connect(database=self.path)
 
         # Создание и добавление таблицы в базе данных
         # replace - удалить и вставить, append - добавить
@@ -33,9 +34,12 @@ class SQLite_operations:
         conn = sqlite3.connect(self.path)
         cur = conn.cursor()
 
+        # Получаем данные
         cur.execute(f"SELECT * FROM {table_name}")
         rows = cur.fetchall()
+
         conn.close()
+
         return rows
 
     def insert_row(self, columns, values):
@@ -74,6 +78,28 @@ class SQLite_operations:
         else:
             conn.close()
             return False
+
+    # Получить название колонок из заданной таблицы
+    def get_columns(self):
+        conn = sqlite3.connect(self.path)
+        cur = conn.cursor()
+
+        cur.execute(f"PRAGMA table_info({self.table_name})")
+        columns = [column[1] for column in cur.fetchall()]
+        conn.close()
+
+        return columns
+
+    # Записи старше заданного времени
+    def select_by_datetime(self, date_time):
+        conn = sqlite3.connect(self.path)
+        cur = conn.cursor()
+
+        cur.execute(f"SELECT * FROM {self.table_name} WHERE date_create > '{date_time}'")
+        rows = cur.fetchall()
+        conn.close()
+
+        return rows
 
 
 if __name__ == "__main__":
