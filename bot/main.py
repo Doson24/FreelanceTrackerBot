@@ -1,26 +1,18 @@
 from aiogram import Bot, Dispatcher, types
 import sqlite3
+from data.database import SQLite_operations
 
 # Ваши данные для авторизации в Telegram
 API_TOKEN = '5224696385:AAG23ZsTeQaW8dkhAUkT8w7a-0ybzKNcwJE'
+# Получаем ID чата, в который будем отправлять сообщения
+CHAT_ID = '-1002101634086'
 
 # Создаем экземпляр бота
 bot = Bot(token=API_TOKEN)
-dispatcher = Dispatcher(bot)
+dispatcher = Dispatcher(name=bot)
 
-# Подключаемся к базе данных SQLite
-conn = sqlite3.connect('messages.db')
-cursor = conn.cursor()
-
-# Получаем сообщения из базы данных
-cursor.execute("SELECT message FROM messages")
-messages = cursor.fetchall()
-
-# Закрываем соединение с базой данных
-conn.close()
-
-# Получаем ID чата, в который будем отправлять сообщения
-CHAT_ID = 'YOUR_CHAT_ID'
+db = SQLite_operations('data/database.db', 'kwork')
+messages = db.select_All('kwork')
 
 
 # Отправляем сообщения в чат
