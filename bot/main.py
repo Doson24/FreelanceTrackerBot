@@ -25,13 +25,15 @@ def get_messages(start_time):
     dir_db = current_dir.parent
     path_db = dir_db.joinpath('data/DB.db')
 
-    db = SQLite_operations(path_db, 'kwork')
+    db_kowk = SQLite_operations(path_db, 'kwork')
+    messages_kwork = db_kowk.select_by_datetime(start_time)
 
-    messages = db.select_by_datetime(start_time)
+    db_habr = SQLite_operations(path_db, 'habr_freelance')
+    messages_habr = db_habr.select_by_datetime(start_time)
 
-    logger.info(f"Найдено {len(messages)} новых сообщений")
+    logger.info(f"Найдено {len(messages_kwork) + len(messages_habr)} новых сообщений")
 
-    return messages
+    return messages_kwork + messages_habr
 
 
 def format_order_message(title, link, description, date_create):
@@ -60,7 +62,7 @@ async def main():
         for message in messages:
             format_message = format_order_message(*message)
             await send_messages_to_chat(format_message)
-        await asyncio.sleep(60 * 5)
+        await asyncio.sleep(60 * 1)
 
 
 def run_telegram_wrapper():
