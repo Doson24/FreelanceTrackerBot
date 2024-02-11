@@ -4,13 +4,23 @@ from pathlib import Path
 
 from aiogram import Bot
 from loguru import logger
+import sys
+
+sys.path.append(str(Path.cwd()))
+sys.path.append(str(Path.cwd().parent))
 
 from data.database import SQLite_operations
+import configparser
 
-# Ваши данные для авторизации в Telegram
-API_TOKEN = '5224696385:AAG23ZsTeQaW8dkhAUkT8w7a-0ybzKNcwJE'
-# Получаем ID чата, в который будем отправлять сообщения
-CHAT_ID = '-1002101634086'
+# Достать API_TOKEN из config.ini
+config = configparser.ConfigParser()
+dir_conf = Path.cwd()
+# dir_conf = dir_conf.parent
+dir_conf = dir_conf.joinpath('config.ini')
+
+config.read(dir_conf)
+API_TOKEN = config['telegram']['API_TOKEN']
+CHAT_ID = config['telegram']['CHAT_ID']
 
 # Создаем экземпляр бота
 bot = Bot(token=API_TOKEN)
@@ -22,12 +32,12 @@ def get_messages(start_time):
 
     # Создаем объект Path для текущего каталога
     current_dir = Path.cwd()
-    dir_db = current_dir.parent
+    # dir_db = current_dir.parent
+    dir_db = current_dir
     path_db = dir_db.joinpath('data/DB.db')
 
-    db_kowk = SQLite_operations(path_db, 'kwork')
-    messages_kwork = db_kowk.select_by_datetime(start_time)
-
+    db_kwork = SQLite_operations(path_db, 'kwork')
+    messages_kwork = db_kwork.select_by_datetime(start_time)
     db_habr = SQLite_operations(path_db, 'habr_freelance')
     messages_habr = db_habr.select_by_datetime(start_time)
 
@@ -47,7 +57,8 @@ def format_order_message(title, link, description, date_create):
 async def send_messages_to_chat(message):
     try:
         await bot.send_message(CHAT_ID, message)
-        logger.info("Сообщение успешно отправлено в чат")
+        title = message.split('\n\n')[0]
+        logger.info(f"Сообщение успешно отправлено в чат {title}")
     except Exception as e:
         logger.error(f"Ошибка при отправке сообщения в чат: {e}")
 
@@ -62,7 +73,7 @@ async def main():
         for message in messages:
             format_message = format_order_message(*message)
             await send_messages_to_chat(format_message)
-        await asyncio.sleep(60 * 1)
+        await asyncio.sleep(60 * 2)
 
 
 def run_telegram_wrapper():
