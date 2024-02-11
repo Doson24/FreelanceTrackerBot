@@ -4,6 +4,7 @@ from datetime import datetime
 import requests
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
+import pytz
 
 
 # dataclass для данных из xml
@@ -30,8 +31,11 @@ def xml_parser(url):
         link = item.find("link").text
         description = item.find("description").text
         date = item.find("pubDate").text
-        # преобразование date в формат sql DATETIME (YYYY-MM-DD HH:MM:SS)
-        date = datetime.strptime(date, "%a, %d %b %Y %H:%M:%S %z").strftime("%Y-%m-%d %H:%M:%S")
+        # преобразование text в формат sql DATETIME (YYYY-MM-DD HH:MM:SS)
+        date = datetime.strptime(date, "%a, %d %b %Y %H:%M:%S %z")
+        # Изменить timezone на +7
+        date = (date.astimezone(pytz.timezone('Asia/Novosibirsk'))
+                .strftime("%Y-%m-%d %H:%M:%S"))
 
         yield Task(title, link, description, date)
 
