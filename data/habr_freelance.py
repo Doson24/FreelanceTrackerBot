@@ -24,9 +24,10 @@ def main():
             values = list(task.__dict__.values())
 
             db.insert_row(columns, values)
-            logger.info(f"Добавлен новый таск: {task}")
-        else:
-            logger.debug(f"Таск уже существует: {task}")
+            logger.info(f"Добавлен новый таск: {task.title}")
+        # else:
+            # logger.debug(f"Таск уже существует: {task}")
+    logger.info("Обработка данных завершена")
 
 
 if __name__ == "__main__":

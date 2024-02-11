@@ -53,8 +53,8 @@ def main():
                     values = list(task.__dict__.values())
                     db.insert_row(columns, values)
                     logger.info(f"Добавлен новый таск: {task.title} ({task.link})")
-                else:
-                    logger.debug(f"Таск уже существует: {task.title}")
+                # else:
+                #     logger.debug(f"Таск уже существует: {task.title}")
 
 
 if __name__ == "__main__":
