@@ -7,9 +7,10 @@ from bot.main import run_telegram_wrapper as run_telegram
 
 def main():
     while True:
-        run_kwork()
+        # run_kwork()
         run_habr()
-        time.sleep(60 * 1)
+
+        time.sleep(60 * 5)
 
 
 if __name__ == "__main__":

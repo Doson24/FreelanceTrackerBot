@@ -14,6 +14,8 @@ class Task:
     link: str
     description: str
     date_create: str
+    price: str = None
+    high_price: str = None
 
 
 # Функция парсинга xml файла по ссылке

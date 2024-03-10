@@ -23,7 +23,10 @@ def main():
             columns = task.__dict__.keys()
             values = list(task.__dict__.values())
 
-            db.insert_row(columns, values)
+            try:
+                db.insert_row(columns, values)
+            except Exception as e:
+                logger.error(f"Ошибка записи таска в БД: {e}")
             logger.info(f"Добавлен новый таск: {task.title}")
         # else:
             # logger.debug(f"Таск уже существует: {task}")

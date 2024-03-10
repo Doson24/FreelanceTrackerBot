@@ -46,8 +46,11 @@ def get_messages(start_time):
     return messages_kwork + messages_habr
 
 
-def format_order_message(title, link, description, date_create):
-    message = f"📝 Название: {title}\n\n" \
+def format_order_message(title, link, description, date_create,
+                         price=None, high_price=None):
+    message = f"📝 Название: {title}\n\n" + \
+              (f"💰 {price}\n" if price else '') + \
+              (f"💰 {high_price}\n" if high_price else '') + \
               f"🔗 Ссылка: {link}\n" \
               f"📄 Описание: {description}\n" \
               f"📅 Дата создания: {date_create}\n"
@@ -56,7 +59,7 @@ def format_order_message(title, link, description, date_create):
 
 async def send_messages_to_chat(message):
     try:
-        await bot.send_message(CHAT_ID, message)
+        await bot.send_message(CHAT_ID, message, disable_notification=True, request_timeout=3)
         title = message.split('\n\n')[0]
         logger.info(f"Сообщение успешно отправлено в чат {title}")
     except Exception as e:
@@ -64,7 +67,7 @@ async def send_messages_to_chat(message):
 
 
 async def main():
-    # start_time = '2024-02-10 00:14:50'
+    # start_time = '2024-02-11 18:14:50'
     start_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     while True:
         messages = get_messages(start_time)
