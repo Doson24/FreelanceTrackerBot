@@ -10,6 +10,7 @@ def main():
         # run_kwork()
         run_habr()
 
+        run_telegram()
         time.sleep(60 * 5)
 
 
