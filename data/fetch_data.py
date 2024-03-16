@@ -91,9 +91,11 @@ def xml_parser_fl():
         date = item.find("pubDate").text
         # преобразование date в формат sql DATETIME (YYYY-MM-DD HH:MM:SS)
         date_gmt = datetime.strptime(date, "%a, %d %b %Y %H:%M:%S %Z")
-        # Изменить timezone на +7
-        date_out = (date_gmt.astimezone(pytz.timezone('Etc/GMT+10'))
+        date_gmt = date_gmt.replace(tzinfo=pytz.timezone('GMT'))
+        # Добавить 7 часов к date_gmt
+        date_out = (date_gmt.astimezone(pytz.timezone('Asia/Novosibirsk'))
                     .strftime("%Y-%m-%d %H:%M:%S"))
+
         yield Task(title, link, description, date_out)
 
 
@@ -143,5 +145,4 @@ class HtmlGetter:
 if __name__ == "__main__":
     for task in xml_parser_fl():
         print(task)
-    for task in xml_parser("https://freelance.habr.com/user_rss_tasks/d%2FqjtQzYArzYp8hLYr4z0g=="):
-        print(task)
+
