@@ -71,7 +71,7 @@ def xml_parser_fl():
     }
 
     params = {
-        'subcategory': '280',
+        # 'subcategory': '280',
         'category': '5',
     }
 
