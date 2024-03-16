@@ -65,7 +65,7 @@ def format_order_message(title, link, description, date_create,
 
 async def send_messages_to_chat(message):
     try:
-        await bot.send_message(CHAT_ID, message, disable_notification=True, request_timeout=3)
+        await bot.send_message(CHAT_ID, message, disable_notification=True, request_timeout=30)
         title = message.split('\n\n')[0]
         logger.info(f"Сообщение успешно отправлено в чат {title}")
     except Exception as e:
