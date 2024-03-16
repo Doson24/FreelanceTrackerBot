@@ -43,10 +43,13 @@ def get_messages(start_time):
     messages_kwork = db_kwork.select_by_datetime(start_time)
     db_habr = SQLite_operations(path_db, 'habr_freelance')
     messages_habr = db_habr.select_by_datetime(start_time)
+    db_fl = SQLite_operations(path_db, 'FLru')
+    messages_fl = db_fl.select_by_datetime(start_time)
 
-    logger.info(f"Найдено {len(messages_kwork) + len(messages_habr)} новых сообщений")
+    logger.info(f"Найдено {len(messages_kwork) + len(messages_habr) + len(messages_fl)} "
+                f"новых сообщений")
 
-    return messages_kwork + messages_habr
+    return messages_kwork + messages_habr + messages_fl
 
 
 def format_order_message(title, link, description, date_create,
