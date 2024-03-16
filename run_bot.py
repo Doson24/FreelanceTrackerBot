@@ -11,7 +11,7 @@ def main():
         run_habr()
         run_flru()
 
-        time.sleep(60 * 5)
+        time.sleep(60 * 2)
 
 
 if __name__ == "__main__":
