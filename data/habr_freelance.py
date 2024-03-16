@@ -6,9 +6,6 @@ from data.fetch_data import xml_parser
 from data.database import SQLite_operations
 from loguru import logger
 
-# Настройка логирования
-logger.add("logfile.log", rotation="500 MB", level="INFO")
-
 
 def main():
     url = "https://freelance.habr.com/user_rss_tasks/d%2FqjtQzYArzYp8hLYr4z0g=="
@@ -29,7 +26,7 @@ def main():
                 logger.error(f"Ошибка записи таска в БД: {e}")
             logger.info(f"Добавлен новый таск: {task.title}")
         # else:
-            # logger.debug(f"Таск уже существует: {task}")
+        # logger.debug(f"Таск уже существует: {task}")
     logger.info("Обработка данных завершена")
 
 

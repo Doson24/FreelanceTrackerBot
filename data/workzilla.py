@@ -12,7 +12,7 @@ sys.path.append(str(Path.cwd().parent))
 from data.database import SQLite_operations
 from data.fetch_data import HtmlGetter, Task
 
-logger.add("logfile.log", rotation="500 MB", level="DEBUG")
+# logger.add("logfile.log", rotation="500 MB", level="DEBUG")
 
 current_dir = Path.cwd()
 # current_dir = current_dir.parent

@@ -3,11 +3,11 @@ from pathlib import Path
 
 from bs4 import BeautifulSoup
 from loguru import logger
-
+# from run_bot import logger
 from data.database import SQLite_operations
 from data.fetch_data import Task, HtmlGetter
 
-logger.add("logfile.log", rotation="500 MB", level="INFO")
+# logger.add("logfile.log", rotation="500 MB", level="INFO")
 # URL = 'https://kwork.ru/projects?c=41'
 URL = 'https://kwork.ru/projects?price-from=5000&fc=41&c=41'
 

@@ -1,10 +1,11 @@
 from data.database import SQLite_operations
 from data.fetch_data import xml_parser_fl
 from loguru import logger
+
 from pathlib import Path
 
 # Настройка логирования
-logger.add("logfile.log", rotation="500 MB", level="INFO")
+# logger.add("logfile.log", rotation="500 MB", level="INFO")
 
 
 def main():

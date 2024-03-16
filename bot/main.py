@@ -88,8 +88,6 @@ async def main():
 
 def run_telegram_wrapper():
     # Настройка логирования
-    logger.add("logfile.log", rotation="500 MB", level="DEBUG")
-
     loop = asyncio.get_event_loop()
     loop.run_until_complete(main())
 
