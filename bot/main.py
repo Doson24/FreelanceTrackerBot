@@ -83,7 +83,7 @@ async def main():
         for message in messages:
             format_message = format_order_message(*message)
             await send_messages_to_chat(format_message)
-        await asyncio.sleep(60 * 2)
+        await asyncio.sleep(15)
 
 
 def run_telegram_wrapper():
