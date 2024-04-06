@@ -76,14 +76,14 @@ async def main():
     # start_time = '2024-02-11 18:14:50'
 
     start_time = datetime.now(krasnoyarsk_tz).strftime("%Y-%m-%d %H:%M:%S")
-    while True:
-        messages = get_messages(start_time)
-        if messages:
-            start_time = datetime.now(krasnoyarsk_tz).strftime("%Y-%m-%d %H:%M:%S")
-        for message in messages:
-            format_message = format_order_message(*message)
-            await send_messages_to_chat(format_message)
-        await asyncio.sleep(15)
+    # while True:
+    messages = get_messages(start_time)
+    if messages:
+        start_time = datetime.now(krasnoyarsk_tz).strftime("%Y-%m-%d %H:%M:%S")
+    for message in messages:
+        format_message = format_order_message(*message)
+        await send_messages_to_chat(format_message)
+        # await asyncio.sleep(15)
 
 
 def run_telegram_wrapper():
