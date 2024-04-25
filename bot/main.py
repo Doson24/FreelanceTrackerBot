@@ -25,6 +25,9 @@ API_TOKEN = config['telegram']['API_TOKEN']
 CHAT_ID = config['telegram']['CHAT_ID']
 important_chat_id = config['telegram']['IMPORTANT_CHAT_ID']
 krasnoyarsk_tz = pytz.timezone('Asia/Krasnoyarsk')
+
+KEYWORDS = ['парсинг', "автоматизация", "сбор", "парсер", "бот", "скрапинг"]
+
 # Создаем экземпляр бота
 bot = Bot(token=API_TOKEN)
 
@@ -76,7 +79,6 @@ async def send_messages_to_chat(message, chat_id, disable_notification=True):
 
 async def main():
     # start_time = '2024-02-11 18:14:50'
-    keywords = ['парсинг', "автоматизация", "сбор", "парсер", ]
     start_time = datetime.now(krasnoyarsk_tz).strftime("%Y-%m-%d %H:%M:%S")
     while True:
         messages = get_messages(start_time)
@@ -86,7 +88,8 @@ async def main():
             format_message = format_order_message(*message)
             await send_messages_to_chat(format_message, CHAT_ID)
 
-            for word in keywords:
+            # Проверка на важные слова и отправка в отдельный чат
+            for word in KEYWORDS:
                 if word in messages[2] or word in messages[0]:
                     await send_messages_to_chat(format_message, important_chat_id, disable_notification=False)
 
