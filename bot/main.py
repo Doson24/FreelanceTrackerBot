@@ -26,7 +26,7 @@ CHAT_ID = config['telegram']['CHAT_ID']
 important_chat_id = config['telegram']['IMPORTANT_CHAT_ID']
 krasnoyarsk_tz = pytz.timezone('Asia/Krasnoyarsk')
 
-KEYWORDS = ['парсинг', "автоматизация", "сбор", "парсер", "бот", "скрапинг"]
+KEYWORDS = ['парсинг', "автоматизация", "сбор", "парсер", "скрапинг"]
 
 # Создаем экземпляр бота
 bot = Bot(token=API_TOKEN)
