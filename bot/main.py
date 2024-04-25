@@ -23,7 +23,7 @@ dir_conf = dir_conf.joinpath('config.ini')
 config.read(dir_conf)
 API_TOKEN = config['telegram']['API_TOKEN']
 CHAT_ID = config['telegram']['CHAT_ID']
-
+important_chat_id = config['telegram']['IMPORTANT_CHAT_ID']
 krasnoyarsk_tz = pytz.timezone('Asia/Krasnoyarsk')
 # Создаем экземпляр бота
 bot = Bot(token=API_TOKEN)
@@ -63,9 +63,11 @@ def format_order_message(title, link, description, date_create,
     return message
 
 
-async def send_messages_to_chat(message):
+async def send_messages_to_chat(message, chat_id, disable_notification=True):
     try:
-        await bot.send_message(CHAT_ID, message, disable_notification=True, request_timeout=30)
+        await bot.send_message(chat_id, message,
+                               disable_notification=disable_notification,
+                               request_timeout=30)
         title = message.split('\n\n')[0]
         logger.info(f"Сообщение успешно отправлено в чат {title}")
     except Exception as e:
@@ -74,7 +76,7 @@ async def send_messages_to_chat(message):
 
 async def main():
     # start_time = '2024-02-11 18:14:50'
-
+    keywords = ['парсинг', "автоматизация", "сбор", "парсер", ]
     start_time = datetime.now(krasnoyarsk_tz).strftime("%Y-%m-%d %H:%M:%S")
     while True:
         messages = get_messages(start_time)
@@ -82,7 +84,12 @@ async def main():
             start_time = datetime.now(krasnoyarsk_tz).strftime("%Y-%m-%d %H:%M:%S")
         for message in messages:
             format_message = format_order_message(*message)
-            await send_messages_to_chat(format_message)
+            await send_messages_to_chat(format_message, CHAT_ID)
+
+            for word in keywords:
+                if word in messages[2] or word in messages[0]:
+                    await send_messages_to_chat(format_message, important_chat_id, disable_notification=False)
+
         await asyncio.sleep(15)
 
 
