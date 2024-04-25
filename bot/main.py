@@ -90,7 +90,7 @@ async def main():
 
             # Проверка на важные слова и отправка в отдельный чат
             for word in KEYWORDS:
-                if word in messages[2] or word in messages[0]:
+                if word in message[2] or word in message[0]:
                     await send_messages_to_chat(format_message, important_chat_id, disable_notification=False)
 
         await asyncio.sleep(15)
