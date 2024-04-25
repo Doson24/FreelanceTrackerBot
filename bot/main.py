@@ -92,6 +92,8 @@ async def main():
             for word in KEYWORDS:
                 if word in message[2] or word in message[0]:
                     await send_messages_to_chat(format_message, important_chat_id, disable_notification=False)
+                    print(word in message[0], word in message[2])
+                    break
 
         await asyncio.sleep(15)
 
