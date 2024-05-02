@@ -4,6 +4,7 @@ import os
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 import requests
+from selenium.webdriver.common.by import By
 
 COOKIES = 'cookies.json'
 
@@ -18,8 +19,7 @@ def save_cookies():
 
 # Создаем объект опций для настройки браузера
 options = Options()
-
-options.headless = False
+options.add_argument("--headless")
 
 driver = webdriver.Chrome(options=options)
 # Открываем веб-страницу
@@ -33,5 +33,7 @@ with open(COOKIES, 'r') as cookiesfile:
 url = 'https://freelance.habr.com/tasks'
 driver.get(url)
 
+btn = driver.find_element(By.XPATH, '//*[contains(text(), "Личный кабинет")]')
+print(btn.text)
 # Закрываем браузер
 driver.quit()
