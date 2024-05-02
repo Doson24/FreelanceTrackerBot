@@ -6,7 +6,10 @@ from selenium.webdriver.chrome.options import Options
 import requests
 from selenium.webdriver.common.by import By
 
+
 COOKIES = 'cookies.json'
+
+
 
 
 def save_cookies():
@@ -20,6 +23,7 @@ def save_cookies():
 # Создаем объект опций для настройки браузера
 options = Options()
 options.add_argument("--headless")
+options.add_argument("--no-sandbox")
 
 driver = webdriver.Chrome(options=options)
 # Открываем веб-страницу
