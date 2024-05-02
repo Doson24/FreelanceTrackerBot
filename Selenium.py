@@ -39,5 +39,9 @@ driver.get(url)
 
 btn = driver.find_element(By.XPATH, '//*[contains(text(), "Личный кабинет")]')
 print(btn.text)
+
+items = driver.find_elements(By.CLASS_NAME, 'content-list__item')
+for item in items:
+    print(item.text)
 # Закрываем браузер
 driver.quit()
